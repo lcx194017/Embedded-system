@@ -1,0 +1,12 @@
+﻿  cJSON.c
+  global.cpp
+  JSONModule.cpp
+  RuleCheck.cpp
+g:\vsprojects\embeddedsoftware\embeddedsoftware\rulecheck.cpp(25): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+g:\vsprojects\embeddedsoftware\embeddedsoftware\rulecheck.cpp(32): warning C4804: '<=': unsafe use of type 'bool' in operation
+  Source.cpp
+  SystemError.cpp
+  TDMSData.cpp
+  Generating Code...
+     Creating library G:\VsProjects\EmbeddedSoftware\x64\Debug\EmbeddedSoftware.lib and object G:\VsProjects\EmbeddedSoftware\x64\Debug\EmbeddedSoftware.exp
+  EmbeddedSoftware.vcxproj -> G:\VsProjects\EmbeddedSoftware\x64\Debug\EmbeddedSoftware.exe
