@@ -2,11 +2,11 @@
   global.cpp
   JSONModule.cpp
   RuleCheck.cpp
-g:\vsprojects\embeddedsoftware\embeddedsoftware\rulecheck.cpp(25): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-g:\vsprojects\embeddedsoftware\embeddedsoftware\rulecheck.cpp(32): warning C4804: '<=': unsafe use of type 'bool' in operation
+e:\projects\vsprojects\embedded-system\embeddedsoftware\rulecheck.cpp(25): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
+e:\projects\vsprojects\embedded-system\embeddedsoftware\rulecheck.cpp(32): warning C4804: “<=”: 在操作中使用类型“bool”不安全
   Source.cpp
   SystemError.cpp
   TDMSData.cpp
-  Generating Code...
-     Creating library G:\VsProjects\EmbeddedSoftware\x64\Debug\EmbeddedSoftware.lib and object G:\VsProjects\EmbeddedSoftware\x64\Debug\EmbeddedSoftware.exp
-  EmbeddedSoftware.vcxproj -> G:\VsProjects\EmbeddedSoftware\x64\Debug\EmbeddedSoftware.exe
+  正在生成代码...
+    正在创建库 E:\Projects\VsProjects\Embedded-system\x64\Debug\EmbeddedSoftware.lib 和对象 E:\Projects\VsProjects\Embedded-system\x64\Debug\EmbeddedSoftware.exp
+  EmbeddedSoftware.vcxproj -> E:\Projects\VsProjects\Embedded-system\x64\Debug\EmbeddedSoftware.exe

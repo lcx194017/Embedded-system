@@ -127,6 +127,7 @@
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SystemError.cpp" />
     <ClCompile Include="TDMSData.cpp" />
+    <ClCompile Include="TriggerModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Caculation.h" />
@@ -136,6 +137,7 @@
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="SystemError.h" />
     <ClInclude Include="TDMSData.h" />
+    <ClInclude Include="TriggerModule.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Caculation.inl" />
