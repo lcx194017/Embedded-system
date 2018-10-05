@@ -1,12 +1,6 @@
-﻿  cJSON.c
-  global.cpp
-  JSONModule.cpp
-  RuleCheck.cpp
-e:\projects\vsprojects\embedded-system\embeddedsoftware\rulecheck.cpp(25): warning C4267: “=”: 从“size_t”转换到“unsigned int”，可能丢失数据
-e:\projects\vsprojects\embedded-system\embeddedsoftware\rulecheck.cpp(32): warning C4804: “<=”: 在操作中使用类型“bool”不安全
-  Source.cpp
-  SystemError.cpp
+﻿  global.cpp
   TDMSData.cpp
+  TriggerModule.cpp
   正在生成代码...
     正在创建库 E:\Projects\VsProjects\Embedded-system\x64\Debug\EmbeddedSoftware.lib 和对象 E:\Projects\VsProjects\Embedded-system\x64\Debug\EmbeddedSoftware.exp
   EmbeddedSoftware.vcxproj -> E:\Projects\VsProjects\Embedded-system\x64\Debug\EmbeddedSoftware.exe

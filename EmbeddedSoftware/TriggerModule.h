@@ -1,5 +1,7 @@
 #pragma once
 #include <ctime>
+#include "JSONModule.h"
+#include <list>
 using namespace std;
 #pragma warning(disable : 4996)
 
@@ -17,45 +19,26 @@ public:
 	TriggerModule();
 	~TriggerModule();
 
-	void setTriggerType(TriggerType type);
+	static void init_trigger_rules(const TriggerSettings triggerSettings[] , const int length);
 
-	void setTriggerInterval(time_t interval);
+	static bool getTriggerFlag() { return trigger_flag; }
+	static void setTriggerFlag(bool state) { trigger_flag = state; }
 
-	void setTriggerTime(int hour, int minute);
+	static void rule_check(const double *p_data, const int length);
 
-	void setAmplitudeThreshold(double threshold);
+	void method(const TriggerSettings trigger_item, const double* p_date, const int len);
 
-	void setAmplitudeChangeThreshold(double threashold);
-
-	void setSpeedThreashold(double threashold);
-
-	void setSpeeedChangeThreashold(double threashold);
-
-	int triggerJudge();     //定时调用，可根据系统对触发的响应要求，周期性调用。 默认1s调用一次
 private:
 
-	//触发方式
-	TriggerType triggerType;
+	//触发状态标志,true表示目前不在触发记录状态，可以执行触发；false表示当前已在触发记录了，不可再触发
+	static volatile bool trigger_flag;
 
-	//固定时间间隔触发
-	time_t time_interval;			//设定时间间隔
-	time_t last_trigger_time;		//上次触发时间记录
+	//触发规则检查链表
+	static list<TriggerSettings> trigger_rules_list;
+	static list<double> trigger_last_vlues_list;            //和触发规则链表相对应
 
-									//固定时间触发
-	int hour_regular;				//触发时间——小时          
-	int minute_regular;				//触发时间——分钟
+	static time_t last_trigger_time;
 
-									//幅值触发
-	double amplitude_threshold;		//幅值界限
-
-									//幅值变化触发
-	double amplitude_change_threshold; //幅值变化界限
-
-									   //速度触发
-	double speed_threshold;			//速度触发
-
-									//速度变化触发
-	double speed_change_threshold;		//速度变化触发
 };
 
 

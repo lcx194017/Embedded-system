@@ -3,11 +3,11 @@
 /************************************************************************/
 /*Json配置文件模块错误定义                                                */
 /************************************************************************/
-ConfigurationError::ConfigurationError()
+JsonConfigurationError::JsonConfigurationError()
 {
 }
 
-ConfigurationError::~ConfigurationError()
+JsonConfigurationError::~JsonConfigurationError()
 {
 }
 
@@ -15,11 +15,11 @@ ConfigurationError::~ConfigurationError()
 /************************************************************************/
 /* TDMS数据文件读写错误定义                                             */
 /************************************************************************/
-DataFileError::DataFileError()
+TDMSError::TDMSError()
 {
 }
 
-DataFileError::~DataFileError()
+TDMSError::~TDMSError()
 {
 
 }

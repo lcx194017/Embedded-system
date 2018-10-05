@@ -1,5 +1,13 @@
 #include "TriggerModule.h"
 
+volatile bool TriggerModule::trigger_flag = true;
+
+list<TriggerSettings> TriggerModule::trigger_rules_list;
+
+list<double> TriggerModule::trigger_last_vlues_list;
+
+time_t TriggerModule::last_trigger_time = time(NULL);      //时间间隔模式下，上一次触发时间设置为系统启动的时间
+
 TriggerModule::TriggerModule()
 {
 }
@@ -9,96 +17,101 @@ TriggerModule::~TriggerModule()
 {
 }
 
-void TriggerModule::setTriggerType(TriggerType type)
+//************************************
+// Method:    init_trigger_rules
+// FullName:  TriggerModule::init_trigger_rules
+// Access:    public static 
+// Returns:   void
+// Qualifier:
+// Parameter: const TriggerSettings triggerSettings[]
+// Parameter: const int length
+// JSON文件中有若干条触发规则，对应内存中的一个TriggerSettings数组，但是无序
+// Trigger模块定义了一个静态TriggerSettings链表，将触发规则加入链表，并排序
+//************************************
+void TriggerModule::init_trigger_rules(const TriggerSettings triggerSettings[], const int length)
 {
-	triggerType = type;
-}
-
-void TriggerModule::setTriggerInterval(time_t interval)
-{
-	time_interval = interval;
-}
-
-void TriggerModule::setTriggerTime(int hour, int minute)
-{
-	hour_regular = hour;
-	minute_regular = minute;
-}
-void TriggerModule::setAmplitudeThreshold(double threshold)
-{
-	amplitude_threshold = threshold;
-}
-
-void TriggerModule::setAmplitudeChangeThreshold(double threashold)
-{
-	amplitude_change_threshold = threashold;
-}
-
-void TriggerModule::setSpeedThreashold(double threashold)
-{
-	speed_threshold = threashold;
-}
-
-void TriggerModule::setSpeeedChangeThreashold(double threashold)
-{
-	speed_change_threshold = threashold;
-}
-
-int TriggerModule::triggerJudge()
-{
-	time_t now_time;
-	time_t long_time;
-	tm * newtime;
-	int h;
-	int m;
-
-	switch (triggerType)
+	for (int i = 0; i < length; i++) 
 	{
-	case TIME_INTERVAL:
-		now_time = time(NULL);
-		if (now_time - last_trigger_time >= time_interval)
-		{
-			//在新线程中进行触发操作
-			last_trigger_time = time_interval;
-		}
-		break;
-	case TIME_SPECIFIC:
-
-		long_time = time(NULL);
-		newtime = localtime(&long_time);
-		h = newtime->tm_hour;  //得到当前时间的小时
-		m = newtime->tm_min;   //得到当前时间的分钟
-		if (h == hour_regular && m == minute_regular)
-		{
-			//在新线程中进行触发操作
-		}
-		break;
-	case AMPLITUDE:
-		if (0 > amplitude_threshold)
-		{
-			//在新线程中执行触发
-		}
-		break;
-	case AMPLITUDE_CHANGE:
-		if (0 > amplitude_change_threshold)
-		{
-			//在新线程中执行触发
-		}
-		break;
-	case SPEED:
-		if (0 > speed_threshold)
-		{
-			//在新线程中执行触发
-		}
-		break;
-	case SPEED_CHANGE:
-		if (0 > speed_change_threshold)
-		{
-			//在新线程中执行触发
-		}
-		break;
-	default:
-		break;
+		trigger_rules_list.push_back(triggerSettings[i]);
+		trigger_last_vlues_list.push_back(0);    //上次触发值默认0
 	}
-	return 0;
+
+	trigger_rules_list.sort();
+}
+
+void TriggerModule::rule_check(const double *p_data, const int length)
+{
+	
+	if (!trigger_flag)       //如果已经在触发状态了，直接返回
+		return;
+
+	trigger_flag = false;    //设置触发状态，防止其它触发线程进入
+	
+	//将数据Buffer中的数据Copy到本地进行处理
+	double *data = new double[length];
+	memset(data, 0, length * sizeof(double));
+	memcpy(data, p_data, length * sizeof(double));
+
+	list<TriggerSettings>::iterator trigger_rules_iterator;
+	list<double>::iterator trigger_values_iterator;
+
+	for (trigger_rules_iterator = trigger_rules_list.begin(), trigger_values_iterator = trigger_last_vlues_list.begin(); 
+		trigger_rules_iterator != trigger_rules_list.end(); 
+		trigger_rules_iterator++, trigger_values_iterator++)
+	{
+		
+	}
+	delete[] data;
+
+	trigger_flag = true;   //设置触发为可入状态
+}
+
+void TriggerModule::method(const TriggerSettings trigger_item, const double* p_date, const int len)
+{
+	bool flag = false;
+	/*string triggerEventName":"Time interval_Alarm",
+		"triggeredChannelId" : "911",
+		"triggeredChannelName" : "315 TURB KEY PHASOR_KA371",*/
+	if (trigger_item.triggerType == "LEVEL")
+	{
+		for (int i = 0; i < len; i++)
+			if (p_date[i] > trigger_item.triggerValue)
+				flag = true;
+	}
+	else if (trigger_item.triggerType == "TIME_OF_DAY")
+	{
+		time_t current_time = time(NULL);
+		tm * format_time = localtime(&current_time);
+		int time_hour = format_time->tm_hour;                   //得到当前时间的小时
+		int time_minute = format_time->tm_min;                  //得到当前时间的分钟
+
+		if (time_hour == trigger_item.triggerValue)             //如果当前时间和设定时间相等，开始触发
+			flag = true;
+	}
+	else if (trigger_item.triggerType == "DELTA_EU")
+	{
+
+	}
+	else if (trigger_item.triggerType == "DELTA_SPEED")
+	{
+
+	}
+	else if (trigger_item.triggerType == "TIME_INTERVAL")
+	{
+		time_t current_time = time(NULL);
+		if (current_time - last_trigger_time > trigger_item.triggerValue)    //设定的时间间隔到了
+			flag = true;
+		last_trigger_time = current_time;  //更新上次触发条件
+	}
+
+	if (flag)   //如果达到触发条件
+	{
+		time_t nowtime = time(NULL);    
+		char tmp[64];
+		strftime(tmp, sizeof(tmp), "%Y_%m_%d_%H_%M_%S", localtime(&nowtime));
+		string time_stamp = string(tmp);
+
+		string tdms_file_name = trigger_item.triggerEventName + "_" + trigger_item.triggerType + "_" + trigger_item.triggeredChannelName +
+			"_" + "设备名称" + "_" + time_stamp;
+	}
 }

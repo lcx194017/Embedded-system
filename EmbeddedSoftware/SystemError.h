@@ -24,210 +24,229 @@ using namespace std;
 */
 
 
-//配置文件模块错误定义
-class ConfigurationError
+//Json配置文件模块错误定义
+class JsonConfigurationError
 {
 public:
-	ConfigurationError();
-	~ConfigurationError();
+	JsonConfigurationError();
+	~JsonConfigurationError();
 
 
-	unsigned int SystemDesc_not_exist() const { return systemDesc_not_exist; }
-	void SystemDesc_not_exist_set()
+	unsigned int SystemInfo_not_exist() const { return systemInfo_not_exist; }
+	void SystemInfo_not_exist_set()
 	{
-		if (SystemDesc_not_exist() < UINT_MAX)
-			systemDesc_not_exist++;
+		if (systemInfo_not_exist < UINT_MAX)
+			systemInfo_not_exist++;
 	}
-	void SystemDesc_not_exist_clear() { systemDesc_not_exist = 0; }
+	void SystemInfo_not_exist_clear() { systemInfo_not_exist = 0; }
 
-	unsigned int SystemDesc_open_error() const { return systemDesc_open_error; }
-	void SystemDesc_open_error_set()
+	unsigned int SystemInfo_open_error() const { return systemInfo_open_error; }
+	void SystemInfo_open_error_set()
 	{
-		if (systemDesc_open_error < UINT_MAX)
-			systemDesc_open_error++;
+		if (systemInfo_open_error < UINT_MAX)
+			systemInfo_open_error++;
 	}
-	void SystemDesc_open_error_clear() { systemDesc_open_error = 0; }
+	void SystemInfo_open_error_clear() { systemInfo_open_error = 0; }
 
-	unsigned int SystemDesc_checkout_fail() const { return systemDesc_checkout_fail; }
-	void SystemDesc_checkout_fail_set()
+	unsigned int SystemInfo_checkout_fail() const { return systemInfo_checkout_fail; }
+	void SystemInfo_checkout_fail_set()
 	{
-		if (systemDesc_checkout_fail < UINT_MAX)
-			systemDesc_checkout_fail++;
+		if (systemInfo_checkout_fail < UINT_MAX)
+			systemInfo_checkout_fail++;
 	}
-	void SystemDesc_checkout_fail_clear() { systemDesc_checkout_fail = 0; }
+	void SystemInfo_checkout_fail_clear() { systemInfo_checkout_fail = 0; }
 
-	unsigned int SystemDesc_read_fail() const { return systemDesc_read_fail; }
-	void SystemDesc_read_fail_set()
+	unsigned int SystemInfo_read_fail() const { return systemInfo_read_fail; }
+	void SystemInfo_read_fail_set()
 	{
-		if (systemDesc_read_fail < UINT_MAX)
-			systemDesc_read_fail++;
+		if (systemInfo_read_fail < UINT_MAX)
+			systemInfo_read_fail++;
 	}
-	void SystemDesc_read_fail_clear() { systemDesc_read_fail = 0; }
+	void SystemInfo_read_fail_clear() { systemInfo_read_fail = 0; }
 
-	unsigned int SystemDesc_write_fail() const { return systemDesc_write_fail; }
-	void SystemDesc_write_fail_set()
+	unsigned int SystemInfo_write_fail() const { return systemInfo_write_fail; }
+	void SystemInfo_write_fail_set()
 	{
-		if (systemDesc_write_fail < UINT_MAX)
-			systemDesc_write_fail++;
+		if (systemInfo_write_fail < UINT_MAX)
+			systemInfo_write_fail++;
 	}
-	void SystemDesc_write_fail_clear() { systemDesc_write_fail = 0; }
+	void SystemInfo_write_fail_clear() { systemInfo_write_fail = 0; }
 
 
-	unsigned int ChannelDesc_not_exist() const { return channelDesc_not_exist; }
-	void ChannelDesc_not_exist_set()
+	unsigned int ChannelSettings_not_exist() const { return channelSettings_not_exist; }
+	void ChannelSettings_not_exist_set()
 	{ 
-		if(channelDesc_not_exist < UINT_MAX)
-			channelDesc_not_exist++;
+		if(channelSettings_not_exist < UINT_MAX)
+			channelSettings_not_exist++;
 	}
-	void ChannelDesc_not_exist_clear() { channelDesc_not_exist = 0; }
+	void ChannelSettings_not_exist_clear() { channelSettings_not_exist = 0; }
 
-	unsigned int ChannelDesc_open_error() const { return channelDesc_open_error; }
-	void ChannelDesc_open_error_set()
+	unsigned int ChannelSettings_open_error() const { return channelSettings_open_error; }
+	void ChannelSettings_open_error_set()
 	{ 
-		if(channelDesc_open_error < UINT_MAX)
-			channelDesc_open_error++; 
+		if(channelSettings_open_error < UINT_MAX)
+			channelSettings_open_error++; 
 	}
-	void ChannelDesc_open_error_clear() { channelDesc_open_error = 0; }
+	void ChannelSettings_open_error_clear() { channelSettings_open_error = 0; }
 
-	unsigned int ChannelDesc_checkout_fail() const { return channelDesc_checkout_fail; }
-	void ChannelDesc_checkout_fail_set()
+	unsigned int ChannelSettings_checkout_fail() const { return channelSettings_checkout_fail; }
+	void ChannelSettings_checkout_fail_set()
 	{ 
-		if(channelDesc_checkout_fail < UINT_MAX)
-			channelDesc_checkout_fail++; 
+		if(channelSettings_checkout_fail < UINT_MAX)
+			channelSettings_checkout_fail++; 
 	}
-	void ChannelDesc_checkout_fail_clear() { channelDesc_checkout_fail = 0; }
+	void ChannelSettings_checkout_fail_clear() { channelSettings_checkout_fail = 0; }
 
-	unsigned int ChannelDesc_read_fail() const { return channelDesc_read_fail; }
-	void ChannelDesc_read_fail_set()
+	unsigned int ChannelSettings_read_fail() const { return channelSettings_read_fail; }
+	void ChannelSettings_read_fail_set()
 	{ 
-		if(channelDesc_read_fail < UINT_MAX)
-			channelDesc_read_fail++; 
+		if(channelSettings_read_fail < UINT_MAX)
+			channelSettings_read_fail++; 
 	}
-	void ChannelDesc_read_fail_clear() { channelDesc_read_fail = 0; }
+	void ChannelSettings_read_fail_clear() { channelSettings_read_fail = 0; }
 
-	unsigned int ChannelDesc_write_fail() const { return channelDesc_write_fail; }
-	void ChannelDesc_write_fail_set()
+	unsigned int ChannelSettings_write_fail() const { return channelSettings_write_fail; }
+	void ChannelSettings_write_fail_set()
 	{ 
-		if(channelDesc_write_fail < UINT_MAX)
-			channelDesc_write_fail++; 
+		if(channelSettings_write_fail < UINT_MAX)
+			channelSettings_write_fail++; 
 	}
-	void ChannelDesc_write_fail_clear() { channelDesc_write_fail = 0; }
+	void ChannelSettings_write_fail_clear() { channelSettings_write_fail = 0; }
 
 
-	unsigned int TriggerDesc_not_exist() const { return triggerDesc_not_exist; }
-	void TriggerDesc_not_exist_set()
+	unsigned int TriggerSettings_not_exist() const { return triggerSettings_not_exist; }
+	void TriggerSettings_not_exist_set()
 	{ 
-		if(triggerDesc_not_exist < UINT_MAX)
-			triggerDesc_not_exist++; 
+		if(triggerSettings_not_exist < UINT_MAX)
+			triggerSettings_not_exist++; 
 	}
-	void TriggerDesc_not_exist_clear() { triggerDesc_not_exist = 0; }
+	void TriggerSettings_not_exist_clear() { triggerSettings_not_exist = 0; }
 
-	unsigned int TriggerDesc_open_error() const { return triggerDesc_open_error; }
-	void TriggerDesc_open_error_set()
+	unsigned int TriggerSettings_open_error() const { return triggerSettings_open_error; }
+	void TriggerSettings_open_error_set()
 	{ 
-		if(triggerDesc_open_error < UINT_MAX)
-			triggerDesc_open_error++; 
+		if(triggerSettings_open_error < UINT_MAX)
+			triggerSettings_open_error++; 
 	}
-	void TriggerDesc_open_error_clear() { triggerDesc_open_error = 0; }
+	void TriggerSettings_open_error_clear() { triggerSettings_open_error = 0; }
 
-	unsigned int TriggerDesc_checkout_fail() const { return triggerDesc_checkout_fail; }
-	void TriggerDesc_checkout_fail_set()
+	unsigned int TriggerSettings_checkout_fail() const { return triggerSettings_checkout_fail; }
+	void TriggerSettings_checkout_fail_set()
 	{ 
-		if(triggerDesc_checkout_fail < UINT_MAX)
-			triggerDesc_checkout_fail++;
+		if(triggerSettings_checkout_fail < UINT_MAX)
+			triggerSettings_checkout_fail++;
 	}
-	void TriggerDesc_checkout_fail_clear() { triggerDesc_checkout_fail = 0; }
+	void TriggerSettings_checkout_fail_clear() { triggerSettings_checkout_fail = 0; }
 
-	unsigned int TriggerDesc_read_fail() const { return triggerDesc_read_fail; }
-	void TriggerDesc_read_fail_set()
+	unsigned int TriggerSettings_read_fail() const { return triggerSettings_read_fail; }
+	void TriggerSettings_read_fail_set()
 	{ 
-		if(triggerDesc_read_fail < UINT_MAX)
-			triggerDesc_read_fail++; 
+		if(triggerSettings_read_fail < UINT_MAX)
+			triggerSettings_read_fail++; 
 	}
-	void TriggerDesc_read_fail_clear() { triggerDesc_read_fail = 0; }
+	void TriggerSettings_read_fail_clear() { triggerSettings_read_fail = 0; }
 
-	unsigned int TriggerDesc_write_fail() const { return triggerDesc_write_fail; }
-	void TriggerDesc_write_fail_set()
+	unsigned int TriggerSettings_write_fail() const { return triggerSettings_write_fail; }
+	void TriggerSettings_write_fail_set()
 	{ 
-		if(triggerDesc_write_fail < UINT_MAX)
-			triggerDesc_write_fail++;
+		if(triggerSettings_write_fail < UINT_MAX)
+			triggerSettings_write_fail++;
 	}
-	void TriggerDesc_write_fail_clear() { triggerDesc_write_fail = 0; }
+	void TriggerSettings_write_fail_clear() { triggerSettings_write_fail = 0; }
 
 
 
-	unsigned int OtherDesc_not_exist() const { return otherDesc_not_exist; }
-	void OtherDesc_not_exist_set()
+	unsigned int SystemSettings_not_exist() const { return systemSettings_not_exist; }
+	void SystemSettings_not_exist_set()
 	{ 
-		if(otherDesc_not_exist < UINT_MAX)
-			otherDesc_not_exist++; 
+		if(systemSettings_not_exist < UINT_MAX)
+			systemSettings_not_exist++; 
 	}
-	void OtherDesc_not_exist_clear() { otherDesc_not_exist = 0; }
+	void SystemSettings_not_exist_clear() { systemSettings_not_exist = 0; }
 
-	unsigned int OtherDesc_open_error() const { return otherDesc_open_error; }
-	void OtherDesc_open_error_set()
+	unsigned int SystemSettings_open_error() const { return systemSettings_open_error; }
+	void SystemSettings_open_error_set()
 	{
-		if(otherDesc_open_error < UINT_MAX)
-			otherDesc_open_error++;
+		if(systemSettings_open_error < UINT_MAX)
+			systemSettings_open_error++;
 	}
-	void OtherDesc_open_error_clear() { otherDesc_open_error = 0; }
+	void SystemSettings_open_error_clear() { systemSettings_open_error = 0; }
 
-	unsigned int OtherDesc_checkout_fail() const { return otherDesc_checkout_fail; }
-	void OtherDesc_checkout_fail_set()
+	unsigned int SystemSettings_checkout_fail() const { return systemSettings_checkout_fail; }
+	void SystemSettings_checkout_fail_set()
 	{ 
-		if(otherDesc_checkout_fail < UINT_MAX)
-		otherDesc_checkout_fail ++; 
+		if(systemSettings_checkout_fail < UINT_MAX)
+		systemSettings_checkout_fail ++; 
 	}
-	void OtherDesc_checkout_fail_clear() { otherDesc_checkout_fail = 0; }
+	void SystemSettings_checkout_fail_clear() { systemSettings_checkout_fail = 0; }
 
-	unsigned int OtherDesc_read_fail() const { return otherDesc_read_fail; }
-	void OtherDesc_read_fail_set()
+	unsigned int SystemSettings_read_fail() const { return systemSettings_read_fail; }
+	void SystemSettings_read_fail_set()
 	{ 
-		if(otherDesc_read_fail < UINT_MAX)
-		otherDesc_read_fail ++; 
+		if(systemSettings_read_fail < UINT_MAX)
+		systemSettings_read_fail ++; 
 	}
-	void OtherDesc_read_fail_clear() { otherDesc_read_fail = 0; }
+	void SystemSettings_read_fail_clear() { systemSettings_read_fail = 0; }
 
-	unsigned int OtherDesc_write_fail() const { return otherDesc_write_fail; }
-	void OtherDesc_write_fail_set()
+	unsigned int SystemSettings_write_fail() const { return systemSettings_write_fail; }
+	void SystemSettings_write_fail_set()
 	{ 
-		if(otherDesc_write_fail < UINT_MAX)
-			otherDesc_write_fail++;
+		if(systemSettings_write_fail < UINT_MAX)
+			systemSettings_write_fail++;
 	}
+	void SystemSettings_write_fail_clear() { systemSettings_write_fail = 0; }
 
 private:
 
-	volatile long systemDesc_not_exist = 0;
-	volatile long systemDesc_open_error = 0;
-	volatile long systemDesc_checkout_fail = 0;
-	volatile long systemDesc_read_fail = 0;
-	volatile long systemDesc_write_fail = 0;
+	volatile long systemInfo_not_exist = 0;
+	volatile long systemInfo_open_error = 0;
+	volatile long systemInfo_checkout_fail = 0;
+	volatile long systemInfo_read_fail = 0;
+	volatile long systemInfo_write_fail = 0;
 
-	volatile long channelDesc_not_exist = 0;
-	volatile long channelDesc_open_error = 0;
-	volatile long channelDesc_checkout_fail = 0;
-	volatile long channelDesc_read_fail = 0;
-	volatile long channelDesc_write_fail = 0;
+	volatile long channelSettings_not_exist = 0;
+	volatile long channelSettings_open_error = 0;
+	volatile long channelSettings_checkout_fail = 0;
+	volatile long channelSettings_read_fail = 0;
+	volatile long channelSettings_write_fail = 0;
 
-	volatile long triggerDesc_not_exist = 0;
-	volatile long triggerDesc_open_error = 0;
-	volatile long triggerDesc_checkout_fail = 0;
-	volatile long triggerDesc_read_fail = 0;
-	volatile long triggerDesc_write_fail = 0;
+	volatile long triggerSettings_not_exist = 0;
+	volatile long triggerSettings_open_error = 0;
+	volatile long triggerSettings_checkout_fail = 0;
+	volatile long triggerSettings_read_fail = 0;
+	volatile long triggerSettings_write_fail = 0;
 
-	volatile long otherDesc_not_exist = 0;
-	volatile long otherDesc_open_error = 0;
-	volatile long otherDesc_checkout_fail = 0;
-	volatile long otherDesc_read_fail = 0;
-	volatile long otherDesc_write_fail = 0;
+	volatile long systemSettings_not_exist = 0;
+	volatile long systemSettings_open_error = 0;
+	volatile long systemSettings_checkout_fail = 0;
+	volatile long systemSettings_read_fail = 0;
+	volatile long systemSettings_write_fail = 0;
 
 };
 
 //TDMS模块错误定义
-class DataFileError {
+class TDMSError {
 public:
-	DataFileError();
-	~DataFileError();
+	TDMSError();
+	~TDMSError();
+	volatile long Tdms_read_fail() const { return tdms_read_fail; }
+	void Tdms_read_fail_set() 
+	{ 
+		if (tdms_read_fail < UINT_MAX)
+			tdms_read_fail++;
+	}
+	void Tdms_read_fail_clear() { tdms_read_fail = 0; }
+	
+	volatile long Tdms_write_fail() const { return tdms_write_fail; }
+	void Tdms_write_fail_set() 
+	{ 
+		if (tdms_write_fail < UINT_MAX)
+		tdms_write_fail++; 
+	}
+	void Tdms_write_fail_clear() { tdms_write_fail = 0; }
+private:
+	volatile long tdms_read_fail = 0;
+	volatile long tdms_write_fail = 0;
 };
 
 
@@ -239,10 +258,10 @@ class SystemError
 public:
 	SystemError();
 	~SystemError();
-	ConfigurationError getConfigurationError() const { return configurationError; }
+	JsonConfigurationError getJsonConfigurationError() const { return jsonconfigurationError; }
 private:
-	ConfigurationError configurationError;
-	DataFileError dataFileError;
+	JsonConfigurationError jsonconfigurationError;
+	TDMSError tdmsError;
 };
 
 
@@ -255,16 +274,22 @@ enum ErrorPriority
 //错误子模块类型枚举
 enum ErrorSubmoduleType
 {
-	CONFIGURATIONERROR, DATAFILEERROR
+	//Json配置模块错误
+	JSONCONFIGURATIONERROR, 
+	//TDMS模块错误
+	TDMSERROR
 };
 
 //错误描述枚举
 enum ErrorDesc
 {
-	SYSTEMDESC_NOT_EXIST,SYSTEMDESC_OPEN_ERROR,SYSTEMDESC_CHECKOUT_FAIL,SYSTEMDESC_READ_FAIL,SYSTEMDESC_WRITE_FAIL,
-	CHANNELDESC_NOT_EXIST,CHANNELDESC_OPEN_ERROR,CHANNELDESC_CHECKOUT_FAIL,CHANNELDESC_READ_FAIL,CHANNELDESC_WRITE_FAIL,
-	TRIGGERDESC_NOT_EXIST,TRIGGERDESC_OPEN_ERROR,TRIGGERDESC_CHECKOUT_FAIL,TRIGGERDESC_READ_FAIL,TRIGGERDESC_WRITE_FAIL,
-	OTHERDESC_NOT_EXIST,OTHERDESC_OPEN_ERROR,OTHERDESC_CHECKOUT_FAIL,OTHERDESC_READ_FAIL,OTHERDESC_WRITE_FAIL
+	//JSON配置文件读写相关的错误项
+	SYSTEMINFO_NOT_EXIST,SYSTEMINFO_OPEN_ERROR,SYSTEMINFO_CHECKOUT_FAIL,SYSTEMINFO_READ_FAIL,SYSTEMINFO_WRITE_FAIL,
+	CHANNELSETTINGS_NOT_EXIST,CHANNELSETTINGS_OPEN_ERROR,CHANNELSETTINGS_CHECKOUT_FAIL,CHANNELSETTINGS_READ_FAIL,CHANNELSETTINGS_WRITE_FAIL,
+	TRIGGERSETTINGS_NOT_EXIST,TRIGGERSETTINGS_OPEN_ERROR,TRIGGERSETTINGS_CHECKOUT_FAIL,TRIGGERSETTINGS_READ_FAIL,TRIGGERSETTINGS_WRITE_FAIL,
+	SYSTEMSETTINGS_NOT_EXIST,SYSTEMSETTINGS_OPEN_ERROR,SYSTEMSETTINGS_CHECKOUT_FAIL,SYSTEMSETTINGS_READ_FAIL,SYSTEMSETTINGS_WRITE_FAIL,
+	//TDMS读写错误项
+	TDMS_READ_FAIL, TDMS_WRITE_FAIL
 };
 
 
