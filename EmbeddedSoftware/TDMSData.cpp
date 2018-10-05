@@ -2,22 +2,11 @@
 
 Channel::Channel()
 {
-	//设置默认属性初始值
-	default_properties.insert(pair<string, string>("name", ""));
-	default_properties.insert(pair<string, string>("description", ""));
-	default_properties.insert(pair<string, string>("unit_string", ""));
-	default_properties.insert(pair<string, string>("minimum", ""));
-	default_properties.insert(pair<string, string>("maximum", ""));
 }
 
-Channel::Channel(string name, string description)
+Channel::Channel(string name)
 {
-	//设置默认属性初始值
-	default_properties.insert(pair<string, string>("name", name));
-	default_properties.insert(pair<string, string>("description", description));
-	default_properties.insert(pair<string, string>("unit_string", ""));
-	default_properties.insert(pair<string, string>("minimum", ""));
-	default_properties.insert(pair<string, string>("maximum", ""));
+	channel_name = name;
 }
 
 
@@ -25,45 +14,79 @@ Channel::Channel(string name, string description)
 Channel::~Channel()
 {
 	/*if (data_point)
-		free(data_point);*/
+	free(data_point);*/
 }
 
-//************************************
-// Method:    setProperties
-// FullName:  Channel::setProperties
-// Access:    public 
-// Returns:   void
-// Qualifier:
-// Parameter: string key
-// Parameter: string value
-// 设置属性的时候，现在默认属性集合中查找，如果能找到修改默认属性的值为新的value
-// 如果属性不在默认属性中，且key不为空，就作为额外属性添加到额外属性map中
-//************************************
-void Channel::setProperties(string key, string value)
+void Channel::setChannelName(string name)
 {
-	map<string, string>::iterator iter;
-	iter = default_properties.find(key);
-	if (iter != default_properties.end())        //如果map中不存在要设置的key，那就不做处理
-		default_properties[key] = value;
-	else
-		if (key != "")
-			extra_properties[key] = value;       //额外属性是动态拓展的，只要key不为空就可以添加
+	channel_name = name;
 }
 
-string Channel::findDefaultProperty(string key)
+void Channel::set_wf_start_time(Timestamp start_time)
 {
-	map<string, string>::iterator iter;
-	iter = default_properties.find(key);
-	if (iter != default_properties.end())      //如果map中不存在要设置的key，那就不做处理
-		return iter->second;
-	else
-		return "";                             //返回空的字符串
+	wf_start_time = start_time;
 }
 
-map<string, string> Channel::getExtraProperties()
+void Channel::set_wf_start_offset(double start_offset)
 {
-	return extra_properties;
+	wf_start_offset = start_offset;
 }
+
+void Channel::set_wf_samples(int samples)
+{
+	wf_samples = samples;
+}
+
+void Channel::set_wf_increment(double increment)
+{
+	wf_increment = increment;
+}
+
+void Channel::set_NI_DataType(int DataType)
+{
+	NI_DataType = DataType;
+}
+
+void Channel::set_NI_ChannelLength(unsigned __int64 ChannelLength)
+{
+	NI_ChannelLength = ChannelLength;
+}
+
+string Channel::getChannelName()
+{
+	return channel_name;
+}
+
+Timestamp Channel::get_wf_start_time()
+{
+	return wf_start_time;
+}
+
+double Channel::get_wf_start_offset()
+{
+	return wf_start_offset;
+}
+
+int Channel::get_wf_samples()
+{
+	return wf_samples;
+}
+
+double Channel::get_wf_increment()
+{
+	return wf_increment;
+}
+
+int Channel::get_NI_DataType()
+{
+	return NI_DataType;
+}
+
+unsigned __int64 Channel::get_NI_ChannelLength()
+{
+	return NI_ChannelLength;
+}
+
 
 void Channel::setData(double* point, unsigned __int64 legth)
 {
@@ -86,7 +109,6 @@ unsigned __int64 Channel::getDataLength()
 ChannelGroup::ChannelGroup()
 {
 	group_name = "";
-	group_description = "";
 }
 
 ChannelGroup::ChannelGroup(string name)
@@ -94,10 +116,10 @@ ChannelGroup::ChannelGroup(string name)
 	group_name = name;
 }
 
-ChannelGroup::ChannelGroup(string name, string description)
+ChannelGroup::ChannelGroup(string name, string group_channel_type)
 {
 	group_name = name;
-	group_description = description;
+	channel_type = group_channel_type;
 }
 
 ChannelGroup::~ChannelGroup()
@@ -109,9 +131,9 @@ void ChannelGroup::setGroupName(string name)
 	group_name = name;
 }
 
-void ChannelGroup::setGroupDescription(string description)
+void ChannelGroup::setGroupChannelType(string group_channel_type)
 {
-	group_description = description;
+	channel_type = group_channel_type;
 }
 
 void ChannelGroup::setGroupItems(list<Channel> items)
@@ -124,20 +146,9 @@ string ChannelGroup::getGroupName()
 	return group_name;
 }
 
-string ChannelGroup::getGroupDescription()
+string ChannelGroup::getGroupChannelType()
 {
-	return group_description;
-}
-
-void ChannelGroup::setExtraProperties(string key, string value)
-{
-	if (key != "")
-		extra_properties[key] = value;       //额外属性是动态拓展的，只要key不为空就可以添加
-}
-
-map<string, string> ChannelGroup::getExtraProperties()
-{
-	return extra_properties;
+	return channel_type;
 }
 
 void ChannelGroup::addChannel(Channel channel)
@@ -153,17 +164,14 @@ list<Channel> ChannelGroup::getGroupItems()
 
 
 
-TDMSData::TDMSData(string filepath, string filename)
+TDMSData::TDMSData()
 {
-	file_path = filepath;
-	file_name = filename;
-
-	//设置默认属性初始值
-	default_properties.insert(pair<string, string>("name", ""));
-	default_properties.insert(pair<string, string>("description", ""));
-	default_properties.insert(pair<string, string>("title", ""));
-	default_properties.insert(pair<string, string>("author", ""));
-
+	//设置属性初始值
+	properties.insert(pair<string, string>("SystemInfo", ""));
+	properties.insert(pair<string, string>("SystemSettings", ""));
+	properties.insert(pair<string, string>("ChannelSettings", ""));
+	properties.insert(pair<string, string>("TriggerSettings", ""));
+	properties.insert(pair<string, string>("Version", ""));
 }
 
 
@@ -194,33 +202,38 @@ list<ChannelGroup> TDMSData::getGroups()
 // Qualifier:
 // Parameter: string key
 // Parameter: string value
-// 设置属性的时候，现在默认属性集合中查找，如果能找到修改默认属性的值为新的value
-// 如果属性不在默认属性中，且key不为空，就作为额外属性添加到额外属性map中
+// 如果要设置的属性不属于文件的属性，不作处理
 //************************************
 void TDMSData::setProperties(string key, string value)
 {
-	map<string, string>::iterator iter;
-	iter = default_properties.find(key);
-	if (iter != default_properties.end())        //如果map中不存在要设置的key，那就不做处理
-		default_properties[key] = value;
-	else
-		if (key != "")
-			extra_properties[key] = value;       //额外属性是动态拓展的，只要key不为空就可以添加
+	if (key != "SystemInfo" && key != "SystemSettings" && key != "ChannelSettings" &&
+		key != "TriggerSettings" && key != "Version")
+		return;
+	properties[key] = value;
 }
 
-string TDMSData::findDefaultProperty(string key)
+string TDMSData::getPropertyVaule(string key)
 {
 	map<string, string>::iterator iter;
-	iter = default_properties.find(key);
-	if (iter != default_properties.end())      //如果map中不存在要设置的key，那就不做处理
+	iter = properties.find(key);
+	if (iter != properties.end())      //如果map中不存在要设置的key，那就不做处理
 		return iter->second;
 	else
-		return "";                             //返回空的字符串
+		return "";                     //返回空的字符串
 }
 
-map<string, string> TDMSData::getExtraProperties()
+map<string, string> TDMSData::getProperties()
 {
-	return extra_properties;
+	return properties;
+}
+
+void TDMSData::set_property_name(string name)
+{
+	property_name = name;
+}
+string TDMSData::get_property_name()
+{
+	return property_name;
 }
 
 //************************************
@@ -234,14 +247,12 @@ map<string, string> TDMSData::getExtraProperties()
 // (1)对于每一个通道组，首先获取通道组的各属性字段，然后获取通达组下的所有通道     此为第一层遍历
 // (2)对于每一个通道，首先获取通道的各属性字段，然后获取通道里存储的数据           此为第二层遍历
 //************************************
-int TDMSData::read_tdms()
+int TDMSData::read_tdms(string file_path, string file_name)
 {
 	int				ddcError = 0;
 	unsigned int    length;
 	DDCFileHandle	file = 0;
 	char            *prop = 0;
-	char			**properties = 0;
-	unsigned int    numPropertyNames;
 
 	unsigned int	numGroups;
 	DDCChannelGroupHandle	*groups = 0;
@@ -255,35 +266,51 @@ int TDMSData::read_tdms()
 
 	ddcChk(DDC_OpenFileEx((file_path + file_name).c_str(), DDC_FILE_TYPE_TDM_STREAMING, 1, &file));
 
-	//获取文件属性数量
-	ddcChk(DDC_GetNumFileProperties(file, &numPropertyNames));
-	//获取文件的所有属性名称
-	properties = (char**) malloc(numPropertyNames * sizeof(char*));
-	ddcChk(DDC_GetFilePropertyNames(file, properties, numPropertyNames));
+	//读取文件层名称属性
+	ddcChk(DDC_GetFileStringPropertyLength(file, "name", &length));
+	nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+	ddcChk(DDC_GetFileProperty(file, "name", prop, length + 1));
+	set_property_name(prop);
+	free(prop);
+	prop = 0;
 
-	//读取文件所有的属性值
-	//for (unsigned int k = 0; k < numPropertyNames; k++)
-	for (unsigned int k = 0; k < 1; k++)
-	{
-		ddcChk(DDC_GetFileStringPropertyLength(file, properties[k], &length));
-		nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
-		ddcChk(DDC_GetFileProperty(file, properties[k], prop, length + 1));
-		string key(properties[k]);
-		string value(prop);
+	//读取文件层版本属性
+	ddcChk(DDC_GetFileStringPropertyLength(file, "Version", &length));
+	nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+	ddcChk(DDC_GetFileProperty(file, "Version", prop, length + 1));
+	setProperties("Version", prop);
+	free(prop);
+	prop = 0;
 
-		map<string, string>::iterator iter;
-		iter = default_properties.find(key);
-		if (iter != default_properties.end())        //如果map中不存在要设置的key，那就不做处理
-			default_properties[key] = value;
-		else
-			if (key != "")
-				extra_properties[key] = value;       //额外属性是动态拓展的，只要key不为空就可以添加
+	//读取文件层Json文件属性
+	ddcChk(DDC_GetFileStringPropertyLength(file, "SystemInfo", &length));
+	nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+	ddcChk(DDC_GetFileProperty(file, "SystemInfo", prop, length + 1));
+	setProperties("SystemInfo", prop);
+	free(prop);
+	prop = 0;
 
-		free(prop);
-		prop = 0;
-	}
-	free(properties);
-	properties = 0;
+	ddcChk(DDC_GetFileStringPropertyLength(file, "SystemSettings", &length));
+	nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+	ddcChk(DDC_GetFileProperty(file, "SystemSettings", prop, length + 1));
+	setProperties("SystemSettings", prop);
+	free(prop);
+	prop = 0;
+
+	ddcChk(DDC_GetFileStringPropertyLength(file, "ChannelSettings", &length));
+	nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+	ddcChk(DDC_GetFileProperty(file, "ChannelSettings", prop, length + 1));
+	setProperties("ChannelSettings", prop);
+	free(prop);
+	prop = 0;
+
+	ddcChk(DDC_GetFileStringPropertyLength(file, "TriggerSettings", &length));
+	nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+	ddcChk(DDC_GetFileProperty(file, "TriggerSettings", prop, length + 1));
+	setProperties("TriggerSettings", prop);
+	free(prop);
+	prop = 0;
+
 
 	//读取通道组信息
 	ddcChk(DDC_GetNumChannelGroups(file, &numGroups));
@@ -294,35 +321,20 @@ int TDMSData::read_tdms()
 	{
 		ChannelGroup channelGroup;
 
-		//获取通道组的所有属性名称
-		ddcChk(DDC_GetNumChannelGroupProperties(groups[i], &numPropertyNames));
-		properties = (char**)malloc(numPropertyNames * sizeof(char*));
-		ddcChk(DDC_GetChannelGroupPropertyNames(groups[i], properties, numPropertyNames));
+		//获取通道属性
+		ddcChk(DDC_GetChannelGroupStringPropertyLength(groups[i], "name", &length));
+		nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+		ddcChk(DDC_GetChannelGroupProperty(groups[i], "name", prop, length + 1));
+		channelGroup.setGroupName(prop);
+		free(prop);
+		prop = 0;
 
-		//读取通道组所有的属性值
-		/*for (unsigned int k = 0; k < numPropertyNames; k++)*/
-		for (unsigned int k = 0; k < 1; k++)
-		{
-			ddcChk(DDC_GetChannelGroupStringPropertyLength(groups[i], properties[k], &length));
-			nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
-
-			ddcChk(DDC_GetChannelGroupProperty(groups[i], properties[k], prop, length + 1));
-			string key(properties[k]);
-			string value(prop);
-
-			if (key == DDC_CHANNELGROUP_NAME)
-				channelGroup.setGroupName(value);
-			else if (key == DDC_CHANNELGROUP_DESCRIPTION)
-				channelGroup.setGroupDescription(value);
-			else
-				if (key != "")
-					channelGroup.setExtraProperties(key, value);
-
-			free(prop);
-			prop = 0;
-		}
-		free(properties);
-		properties = 0;
+		ddcChk(DDC_GetChannelGroupStringPropertyLength(groups[i], "ChannelType", &length));
+		nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+		ddcChk(DDC_GetChannelGroupProperty(groups[i], "ChannelType", prop, length + 1));
+		channelGroup.setGroupChannelType(prop);
+		free(prop);
+		prop = 0;
 
 
 		//获取通道组中通道的数量
@@ -334,26 +346,50 @@ int TDMSData::read_tdms()
 		{
 			Channel channel_item;   //存放一条通道的属性和数据，然后加入通道组
 
-			//获取通道的所有属性名称
-			ddcChk(DDC_GetNumChannelProperties(channels[j], &numPropertyNames));
-			properties = (char**)malloc(numPropertyNames * sizeof(char*));
-			ddcChk(DDC_GetChannelPropertyNames(channels[j], properties, numPropertyNames));
+									//获取通道的属性
+			ddcChk(DDC_GetChannelStringPropertyLength(channels[j], "name", &length));
+			nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
+			ddcChk(DDC_GetChannelProperty(channels[j], "name", prop, length + 1));
+			string channel_name(prop);
+			channel_item.setChannelName(channel_name);
+			free(prop);
+			prop = 0;
 
-			//for (unsigned int k = 0; k < numPropertyNames; k++)
-			for (unsigned int k = 0; k < 1; k++)
+			DDCDataType dataType;
+			ddcChk(DDC_GetDataType(channels[j], &dataType));
+			channel_item.set_NI_DataType(dataType);
+
+			unsigned __int64 channel_length;
+			ddcChk(DDC_GetNumDataValues(channels[j], &channel_length));
+			channel_item.set_NI_ChannelLength(channel_length);
+
+			if (channel_name == "TimeWaveform")
 			{
-				ddcChk(DDC_GetChannelStringPropertyLength(channels[j], properties[k], &length));
-				nullChk(prop = (char *)malloc(sizeof(char) * (length + 1)));
-				ddcChk(DDC_GetChannelProperty(channels[j], properties[k], prop, length + 1));
-				string key(properties[k]);
-				string value(prop);
-				channel_item.setProperties(key, value);
+				Timestamp start_time;
+				ddcChk(DDC_GetChannelPropertyTimestampComponents(channels[j], "wf_start_time",
+					&start_time.year,
+					&start_time.month,
+					&start_time.day,
+					&start_time.hour,
+					&start_time.minute,
+					&start_time.second,
+					&start_time.milliSecond,
+					&start_time.weekDay
+				));
+				channel_item.set_wf_start_time(start_time);
 
-				free(prop);
-				prop = 0;
+				int samples;
+				ddcChk(DDC_GetChannelProperty(channels[j], "wf_samples", &samples, 4));
+				channel_item.set_wf_samples(samples);
+
+				double start_offset;
+				ddcChk(DDC_GetChannelProperty(channels[j], "wf_start_offset", &start_offset, 8));
+				channel_item.set_wf_start_offset(start_offset);
+
+				double increment;
+				ddcChk(DDC_GetChannelProperty(channels[j], "wf_increment", &increment, 8));
+				channel_item.set_wf_increment(increment);
 			}
-			free(properties);
-			properties = 0;
 
 			ddcChk(DDC_GetNumDataValues(channels[j], &numDataValues));
 			nullChk(data = (double*)malloc(sizeof(double) * (unsigned int)numDataValues));
@@ -392,8 +428,6 @@ Error:
 		DDC_CloseFile(file);
 	if (prop)
 		free(prop);
-	if (properties)
-		free(properties);
 	return ddcError;
 }
 
@@ -408,7 +442,7 @@ Error:
 // 如果要写的通道数超过了预先定义的通道数（200个），返回-2
 // 如果调用DDC库过程中出现错误，直接返回DDC的错误类型，错误返回值定义详见nilibddc.h
 //************************************
-int TDMSData::write_tdms()
+int TDMSData::write_tdms(string file_path, string file_name)
 {
 	int						ddcError = 0;
 	DDCFileHandle			file = 0;
@@ -418,28 +452,35 @@ int TDMSData::write_tdms()
 	int  channels_count = 0;
 
 	map<string, string>::iterator iter;
-	map<string, string> extra_properties;
+	map<string, string> properties;
 
 	list<ChannelGroup>::iterator group_iter;   //通道组迭代器
 
 	list<Channel> channel_list;
 	list<Channel>::iterator channel_iter;      //通道迭代器
 
-	//如果文件存在，删除
+											   //如果文件存在，删除
 	remove((file_path + file_name).c_str());
 
 	//创建文件并添加默认属性
+	/*ddcChk(DDC_CreateFile((file_path + file_name).c_str(), DDC_FILE_TYPE_TDM_STREAMING,
+	findDefaultProperty(DDC_FILE_NAME).c_str(),
+	findDefaultProperty(DDC_FILE_DESCRIPTION).c_str(),
+	findDefaultProperty(DDC_FILE_TITLE).c_str(),
+	findDefaultProperty(DDC_FILE_AUTHOR).c_str(),
+	&file));*/
+
 	ddcChk(DDC_CreateFile((file_path + file_name).c_str(), DDC_FILE_TYPE_TDM_STREAMING,
-		findDefaultProperty(DDC_FILE_NAME).c_str(),
-		findDefaultProperty(DDC_FILE_DESCRIPTION).c_str(),
-		findDefaultProperty(DDC_FILE_TITLE).c_str(),
-		findDefaultProperty(DDC_FILE_AUTHOR).c_str(),
+		get_property_name().c_str(),
+		NULL,
+		NULL,
+		NULL,
 		&file));
 
 
 	//创建文件的额外属性
-	extra_properties = getExtraProperties();
-	for (iter = extra_properties.begin(); iter != extra_properties.end(); iter++)
+	properties = getProperties();
+	for (iter = properties.begin(); iter != properties.end(); iter++)
 	{
 		ddcChk(DDC_CreateFileProperty(file, (iter->first).c_str(), DDC_String, (iter->second).c_str()));
 	}
@@ -448,17 +489,10 @@ int TDMSData::write_tdms()
 	for (group_iter = groups.begin(); group_iter != groups.end(); group_iter++)
 	{
 		if (groups_count >= GROUPS_MAX)  return -1;             //返回值-1表示通道组不够用
-		ddcChk(DDC_AddChannelGroup(file, (group_iter->getGroupName()).c_str(),
-			(group_iter->getGroupDescription()).c_str(), &(group[groups_count])));
+		ddcChk(DDC_AddChannelGroup(file, (group_iter->getGroupName()).c_str(), NULL, &(group[groups_count])));
 
-
-		//创建通道组的额外属性
-		extra_properties = group_iter->getExtraProperties();
-		for (iter = extra_properties.begin(); iter != extra_properties.end(); iter++)
-		{
-			ddcChk(DDC_CreateChannelGroupProperty(group[groups_count], (iter->first).c_str(),
-				DDC_String, (iter->second).c_str()));
-		}
+		//设置通道组的通道类型属性
+		ddcChk(DDC_CreateChannelGroupProperty(group[groups_count], "ChannelType", DDC_String, (group_iter->getGroupChannelType()).c_str()));
 
 		//添加通道
 		channel_list = group_iter->getGroupItems();
@@ -466,30 +500,31 @@ int TDMSData::write_tdms()
 		{
 			if (channels_count >= CHANNELS_MAX)  return -2;     //返回值-2表示通道不够用
 
-			//添加通道并设置默认属性
+																//添加通道并设置默认属性
 			ddcChk(DDC_AddChannel(group[groups_count], DDC_Double,
-				(channel_iter->findDefaultProperty(DDC_CHANNEL_NAME)).c_str(),
-				(channel_iter->findDefaultProperty(DDC_CHANNEL_DESCRIPTION)).c_str(),
-				(channel_iter->findDefaultProperty(DDC_CHANNEL_UNIT_STRING)).c_str(),
+				(channel_iter->getChannelName()).c_str(),
+				NULL,
+				NULL,
 				&channels[channels_count]));
 
-			//下面这两个属性设置现在没有用
-			/*ddcChk(DDC_SetChannelProperty(channels[channels_count], DDC_CHANNEL_MINIMUM,
-			(channel_iter->findDefaultProperty(DDC_CHANNEL_MINIMUM)).c_str()
-			));
-
-			ddcChk(DDC_SetChannelProperty(channels[channels_count], DDC_CHANNEL_MAXIMUM,
-			(channel_iter->findDefaultProperty(DDC_CHANNEL_MAXIMUM)).c_str()
-			));*/
-
-			//创建通道的额外属性
-			extra_properties = channel_iter->getExtraProperties();
-			for (iter = extra_properties.begin(); iter != extra_properties.end(); iter++)
+			if (channel_iter->getChannelName() == "TimeWaveform")
 			{
-				ddcChk(DDC_CreateChannelProperty(channels[channels_count],
-					(iter->first).c_str(), DDC_String, (iter->second).c_str()));
-			}
+				ddcChk(DDC_CreateChannelPropertyTimestampComponents(channels[channels_count], "wf_start_time",
+					channel_iter->get_wf_start_time().year,
+					channel_iter->get_wf_start_time().month,
+					channel_iter->get_wf_start_time().day,
+					channel_iter->get_wf_start_time().hour,
+					channel_iter->get_wf_start_time().minute,
+					channel_iter->get_wf_start_time().second,
+					channel_iter->get_wf_start_time().milliSecond));
 
+				ddcChk(DDC_CreateChannelProperty(channels[channels_count],
+					"wf_start_offset", DDC_Double, channel_iter->get_wf_start_offset()));
+				ddcChk(DDC_CreateChannelProperty(channels[channels_count],
+					"wf_samples", DDC_Int32, channel_iter->get_wf_samples()));
+				ddcChk(DDC_CreateChannelProperty(channels[channels_count],
+					"wf_increment", DDC_Double, channel_iter->get_wf_increment()));
+			}
 			//往通道中添加数据
 			ddcChk(DDC_SetDataValues(channels[channels_count],
 				channel_iter->getData(), channel_iter->getDataLength()));
@@ -512,4 +547,3 @@ Error:
 		DDC_CloseFile(file);
 	return ddcError;
 }
-
