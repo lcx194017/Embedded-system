@@ -1,6 +1,8 @@
 #pragma once
 #include <ctime>
 #include "JSONModule.h"
+#include "TDMSData.h"
+#include <math.h>
 #include <list>
 using namespace std;
 #pragma warning(disable : 4996)
@@ -11,6 +13,21 @@ enum TriggerType
 {
 	TIME_INTERVAL, TIME_SPECIFIC, AMPLITUDE, AMPLITUDE_CHANGE, SPEED, SPEED_CHANGE
 };
+
+
+
+typedef struct
+{
+	string triggerEventName;
+	string siteName;
+	string equipmentName;
+	string dataWatchName;
+	string eventFileName;
+	double triggeredValue;
+	string triggeredtime;
+	string triggerRules;
+
+}TriggerEventInfo;
 
 
 class TriggerModule
@@ -24,7 +41,7 @@ public:
 	static bool getTriggerFlag() { return trigger_flag; }
 	static void setTriggerFlag(bool state) { trigger_flag = state; }
 
-	static void rule_check(const double *p_data, const int length);
+	static TriggerEventInfo rule_check(const ChannelGroup channelGroup[], const int length);
 
 	void method(const TriggerSettings trigger_item, const double* p_date, const int len);
 
