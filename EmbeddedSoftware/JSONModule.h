@@ -165,6 +165,11 @@ public:
 	//************************************
 	static int readJsonDataFromFile(const char* filename, void* data, JsonType type);
 
+	static int systemInfoCheck(const SystemInfo &parameter);                             //数据的规则检查
+	static int channelSettingsCheck(const ChannelSettings &parameter);
+	static int triggerSettingsCheck(const TriggerSettings &parameter);
+	static int systemSettingsCheck(const SystemSettings &parameter);
+
 private:
 	static char* makeSystemInfoJson(SystemInfo parameter);                                //将数据转换为Json字符串
 	static bool parseSystemInfoJson(char * pMsg, SystemInfo *parameter);                  //将Json字符串转换成定义的struct格式
@@ -178,10 +183,6 @@ private:
 	static char* makeSystemSettingsJson(SystemSettings parameter);
 	static bool parseSystemSettingsJson(char * pMsg, SystemSettings *parameter);
 
-	static int systemInfoCheck(const SystemInfo &parameter);                             //数据的规则检查
-	static int channelSettingsCheck(const ChannelSettings &parameter);
-	static int triggerSettingsCheck(const TriggerSettings &parameter);
-	static int systemSettingsCheck(const SystemSettings &parameter);
 };
 
 

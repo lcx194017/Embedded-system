@@ -123,6 +123,7 @@
     <ClCompile Include="cJSON.c" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="JSONModule.cpp" />
+    <ClCompile Include="ModuleCall.cpp" />
     <ClCompile Include="RuleCheck.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="SystemError.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="cJSON.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="JSONModule.h" />
+    <ClInclude Include="ModuleCall.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="SystemError.h" />
     <ClInclude Include="TDMSData.h" />

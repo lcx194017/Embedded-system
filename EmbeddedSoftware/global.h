@@ -1,4 +1,5 @@
 #pragma once
+#include "JSONModule.h"
 #include "PriorityQueue.h"
 #include "SystemError.h"
 /****************************************************************************************/
@@ -15,5 +16,20 @@
 注    意:
 */
 /****************************************************************************************/
+
+//系统Json配置数据
+extern SystemInfo systemInfo;
+extern ChannelSettings channelSettings;
+extern TriggerSettings triggerSettings;
+extern SystemSettings systemSettings;
+
 extern PriorityQueue<CustomError> error_queue;            //错误队列
 extern SystemError systemError;                           //系统错误标志位
+
+extern bool main_thread_flag;                             //系统线程运行标志位
+extern bool working_thread_flag;
+extern bool monitoring_thread_flag;
+extern bool error_handling_thread_flag;
+extern bool server_threads_flag;
+
+
