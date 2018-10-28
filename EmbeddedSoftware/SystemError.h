@@ -314,10 +314,6 @@ public:
 	void Error_type(ErrorSubmoduleType val) { error_type = val; }
 
 	bool operator < (const CustomError &a) const;
-
-	ErrorSubmoduleType getErrorSubmoduleType();
-	ErrorDesc getErrorDesc();
-	ErrorPriority getErrorPriority();
 	
 private:
 	ErrorSubmoduleType error_type;
