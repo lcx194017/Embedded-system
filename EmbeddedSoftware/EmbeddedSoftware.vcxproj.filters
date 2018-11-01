@@ -42,6 +42,12 @@
     <ClCompile Include="ModuleCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileTransferClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileTransferServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cJSON.h">
@@ -69,6 +75,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModuleCall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransferClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="messageProtocol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileTransferServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
