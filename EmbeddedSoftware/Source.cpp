@@ -1,5 +1,6 @@
 #include <iostream>
 #include "global.h"
+#include "ModuleCall.h"
 
 using namespace std;
 
@@ -17,9 +18,13 @@ int main()
 	if (!error_queue.empty())
 		goto Error;
 
-
-	//2.启动各监听线程
-
+	{
+		//2.启动各监听线程
+		thread working_td(ModuleCall::working_thread_proc);     //工作线程启动
+		thread monitor_td(ModuleCall::resource_monitoring_thread_proc);     //资源监控线程启动
+		thread error_td(ModuleCall::error_handling_thread_proc);       //错误处理线程启动
+		thread server_td(ModuleCall::server_thread_proc);      //服务器线程启动
+	}
 
 	//3.循环监听数据区域
 	while (main_thread_flag)
