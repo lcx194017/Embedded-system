@@ -225,7 +225,8 @@ private:
 };
 
 //TDMS模块错误定义
-class TDMSError {
+class TDMSError 
+{
 public:
 	TDMSError();
 	~TDMSError();
@@ -249,6 +250,34 @@ private:
 	volatile long tdms_write_fail = 0;
 };
 
+class FileTransferError 
+{
+public:
+
+	FileTransferError();
+	~FileTransferError();
+
+	volatile long File_send_fail() const { return file_send_fail; }
+	void File_send_fail_set()
+	{
+		if (file_send_fail < UINT_MAX)
+			file_send_fail++;
+	}
+	void File_send_fail_clear() { file_send_fail = 0; }
+
+	volatile long File_receive_fail() const { return file_receive_fail; }
+	void File_receive_fail_set()
+	{
+		if (file_receive_fail < UINT_MAX)
+			file_receive_fail++;
+	}
+	void File_receive_fail_clear() { file_receive_fail = 0; }
+
+private:
+	volatile long file_send_fail = 0;
+	volatile long file_receive_fail = 0;
+};
+
 
 /************************************************************************/
 /* 系统错误模块，该模块下还有若干子集，对应各模块中的错误               */
@@ -262,6 +291,7 @@ public:
 	//各错误模块标志位信息
 	JsonConfigurationError jsonconfigurationError;
 	TDMSError tdmsError;
+	FileTransferError fileTransferError;
 };
 
 
@@ -277,7 +307,9 @@ enum ErrorSubmoduleType
 	//Json配置模块错误
 	JSONCONFIGURATIONERROR, 
 	//TDMS模块错误
-	TDMSERROR
+	TDMSERROR,
+	//文件传输模块错误
+	FILETRANSFERERROR
 }; 
 
 //错误描述枚举
@@ -289,7 +321,11 @@ enum ErrorDesc
 	TRIGGERSETTINGS_NOT_EXIST,TRIGGERSETTINGS_CHECKOUT_FAIL,TRIGGERSETTINGS_READ_FAIL,TRIGGERSETTINGS_WRITE_FAIL,
 	SYSTEMSETTINGS_NOT_EXIST,SYSTEMSETTINGS_CHECKOUT_FAIL,SYSTEMSETTINGS_READ_FAIL,SYSTEMSETTINGS_WRITE_FAIL,
 	//TDMS读写错误项
-	TDMS_READ_FAIL, TDMS_WRITE_FAIL
+	TDMS_READ_FAIL, TDMS_WRITE_FAIL,
+	//文件传输错误项
+	SEND_INIT_SOCKET_FAIL, SEND_CONNECT_FAIL, SEND_PROCESS_FAIL,
+	RECEIVE_INIT_SOCKET_FAIL, RECEIVE_SERVER_INVALID_SOCKET, RECEIVE_LISTEN_INVALID_SOCKET, RECEIVE_CONNECT_FAIL, RECEVICE_PROCESS_FAIL
+
 };
 
 

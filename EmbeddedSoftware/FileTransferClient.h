@@ -21,16 +21,18 @@ public:
 	FileTransferClient();
 	~FileTransferClient();
 
+	bool InitSock();                                            //初始化winsock
+	u_long ResolveAdress(const char *serverIp);                 //解析服务器地址
+	SOCKET ConnectServer(u_long serverIp, int port);            //连接服务器
+	bool ProcessConnection(SOCKET sd, const char* filePath);    //客户端服务器交互
+	void CloseSocket();                                         //释放套接字
+
 private:
 	int nFileLength;
 	char fileName[_MAX_FNAME + _MAX_EXT];
 	SOCKET sd;
-	bool InitSock();   //初始化winsock
-	u_long ResolveAdress(const char *serverIp);       //解析服务器地址
-	SOCKET ConnectServer(u_long serverIp, int port);  //连接服务器
-	bool ProcessConnection(SOCKET sd, const char* filePath);                //客户端服务器交互
-	void CloseSocket();                               //释放套接字
-	bool SendFileLength(SOCKET sd, const char *filePath);   //发送文件长度
-	bool SendFile(SOCKET sd, const char *filePath);         //发送文件
+	
+	bool SendFileLength(SOCKET sd, const char *filePath);       //发送文件长度
+	bool SendFile(SOCKET sd, const char *filePath);             //发送文件
 };
 

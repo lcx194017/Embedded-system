@@ -153,35 +153,3 @@ int FileTransferServer::bytesToInt(byte* bytes)
 	addr |= ((bytes[0] << 24) & 0xFF000000);
 	return addr;
 }
-
-//main方法调用
-//int main()
-//{
-//	Server server;
-//	if (!server.InitSock())   //初始化失败
-//	{
-//		cout << "初始化失败" << endl;
-//	}
-//	server.sd = server.BindListen();
-//	if (server.sd == INVALID_SOCKET)
-//	{
-//		return -1;
-//	}
-//
-//	while (true)
-//	{
-//		SOCKET sdListen = server.AcceptConnection(server.sd);
-//		if (sdListen == INVALID_SOCKET)
-//		{
-//			return -1;
-//		}
-//		if (!server.ProcessConnection(sdListen))
-//		{
-//			return -1;
-//		}
-//	}
-//
-//	server.CloseSocket();
-//	getchar();
-//	return 0;
-//}

@@ -198,26 +198,3 @@ void FileTransferClient::CloseSocket()   //关闭套接字
 	closesocket(sd);
 	WSACleanup();
 }
-
-
-//main函数调用方法
-//Client client;
-//if (!client.InitSock())
-//{
-//	cout << "初始socket失败" << endl;
-//	return -1;
-//}
-////SOCKET saRemote = client.ConnectServer(client.ResolveAdress(SERVER_IP), PORT);
-//SOCKET saRemote = client.ConnectServer(client.ResolveAdress(SERVER_IP), 12345);
-//if (saRemote == INVALID_SOCKET)
-//{
-//	cout << "连接服务器失败" << endl;
-//	return -1;
-//}
-//if (!client.ProcessConnection(saRemote, "G:/Project3.rar"))
-//{
-//	return -1;
-//}
-//client.CloseSocket();
-//return 0;
-

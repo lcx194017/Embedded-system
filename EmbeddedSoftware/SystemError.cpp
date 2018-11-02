@@ -25,6 +25,17 @@ TDMSError::~TDMSError()
 }
 
 
+/************************************************************************/
+/* 文件传输模块错误定义                                                 */
+/************************************************************************/
+FileTransferError::FileTransferError()
+{
+}
+
+FileTransferError::~FileTransferError()
+{
+}
+
 SystemError::SystemError()
 {
 }
